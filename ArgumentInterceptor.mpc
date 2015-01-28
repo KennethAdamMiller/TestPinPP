@@ -1,0 +1,12 @@
+//Uses ImageBasedFunctionHook to place a command line
+//interceptor analysis function on execution path before
+//the _init executes. Utilizes a serialization interface
+project : oasis_pintool {
+  sharedname = ArgumentInterceptor
+  Source_Files {
+    ArgumentInterceptor.cpp
+  }
+  Header_Files {
+    ArgumentInterceptor.h
+  }
+}

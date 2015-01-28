@@ -1,0 +1,6 @@
+// MPCWorkspace
+// $MPC_ROOT/mwc.pl -type [build tool] -features pin=1,ia32=[0|1],intel64=[0|1]
+workspace {
+  cmdline += -include $PINPP_ROOT/MPC/config
+  cmdline += -base uses_cpp11
+}
