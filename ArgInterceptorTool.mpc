@@ -1,0 +1,7 @@
+project : oasis_pintool, ArgumentInterceptor {
+  sharedname=ArgInterceptorTool
+  prebuild=touch ArgInterceptorTool
+  Source_Files {
+    ArgInterceptorTool.cpp
+  }
+}
