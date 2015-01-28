@@ -4,7 +4,6 @@
 project : oasis_pintool {
   sharedname = ArgumentInterceptor
   Source_Files {
-    ArgumentInterceptor.cpp
   }
   Header_Files {
     ArgumentInterceptor.h
