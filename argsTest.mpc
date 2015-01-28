@@ -1,0 +1,6 @@
+project { 
+  exename=argsTest
+  Source_Files {
+    argstest.c
+  }
+}

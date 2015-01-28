@@ -2,3 +2,4 @@ Makefile*
 pin.log
 *.o
 ArgInterceptorTool
+argsTest
