@@ -1,0 +1,4 @@
+Makefile*
+pin.log
+*.o
+ArgInterceptorTool
