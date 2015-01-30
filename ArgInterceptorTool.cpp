@@ -1,6 +1,7 @@
 #include "ArgumentInterceptor.h"
 #include "pin++/Image_Instrument.h"
 #include "pin++/Pintool.h"
+
 #include <cxxabi.h>
 
 bool compareFunction(const string mangled, const char * funcName) {
@@ -16,23 +17,24 @@ bool compareFunction(const string mangled, const char * funcName) {
 class Image : public OASIS::Pin::Image_Instrument<Image> {
   ArgumentInterceptor argInterceptor;
 public:
-  void handle_instrument(const OASIS::Pin::Image &img) {    
-    for (OASIS::Pin::Section sec : img) {
-      for (OASIS::Pin::Routine rtn : sec) {
-	OASIS::Pin::Routine_Guard rg(rtn);
-        if (compareFunction
-	    (PIN_UndecorateSymbolName(rtn.name(), UNDECORATION_NAME_ONLY), "_init") or
-	    compareFunction
-	    (PIN_UndecorateSymbolName(rtn.name(), UNDECORATION_NAME_ONLY), "init")) {
-	  this->argInterceptor.insert(IPOINT_BEFORE, rtn, REG_STACK_PTR);
-          std::cout << rtn.name() << std::endl;
+  void handle_instrument(const OASIS::Pin::Image &img) {
+    if (!img.is_main_executable())
+      return;
+    IMG image = (IMG)img;
+    for (SEC sec = IMG_SecHead(image); SEC_Valid(sec); sec = SEC_Next(sec))
+      for (RTN rtn = SEC_RtnHead(sec); RTN_Valid(rtn); rtn = RTN_Next(rtn)) {
+	OASIS::Pin::Routine routine(rtn);
+	OASIS::Pin::Routine_Guard rg(routine);
+	if (compareFunction
+	    (PIN_UndecorateSymbolName(RTN_Name(rtn), UNDECORATION_NAME_ONLY), "_init")) {
+	  std::cout << RTN_Name(rtn) << std::endl;
+	  this->argInterceptor.insert(IPOINT_BEFORE, routine, REG_STACK_PTR);
 	}
       }
-    }
   }
 };
 
-class Tool : public OASIS::Pin::Tool<Tool> {
+class Tool : OASIS::Pin::Tool<Tool> {
   Image img;
 public:
   Tool() {
