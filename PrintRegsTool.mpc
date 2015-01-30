@@ -1,0 +1,7 @@
+project : oasis_pintool {
+  sharedname=PrintRegsTool
+  prebuild=touch PrintRegsTool
+  Source_Files {
+    PrintRegsTool.cpp
+  }
+}
