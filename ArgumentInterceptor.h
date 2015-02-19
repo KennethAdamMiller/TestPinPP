@@ -16,7 +16,7 @@ static uintptr_t platformOffset = 0x38;
 static uintptr_t diff = 0x4;
 #endif
 
-uint32_t getArgCount(ADDRINT stackptr);
+int32_t getArgCount(ADDRINT stackptr);
 
 class ArgumentInterceptor : public OASIS::Pin::
   Callback<ArgumentInterceptor(OASIS::Pin::ARG_REG_VALUE)> {

@@ -20,15 +20,12 @@ public:
   void handle_instrument(const OASIS::Pin::Image &img) {
     if (!img.is_main_executable())
       return;
-    IMG image = (IMG)img;
-    for (SEC sec = IMG_SecHead(image); SEC_Valid(sec); sec = SEC_Next(sec))
-      for (RTN rtn = SEC_RtnHead(sec); RTN_Valid(rtn); rtn = RTN_Next(rtn)) {
-	OASIS::Pin::Routine routine(rtn);
-	OASIS::Pin::Routine_Guard rg(routine);
+    for (auto sec : img)
+      for (auto rtn : sec) {
+	OASIS::Pin::Routine_Guard rg(rtn);
 	if (compareFunction
 	    (PIN_UndecorateSymbolName(RTN_Name(rtn), UNDECORATION_NAME_ONLY), "_init")) {
-	  std::cout << RTN_Name(rtn) << std::endl;
-	  this->argInterceptor.insert(IPOINT_BEFORE, routine, REG_STACK_PTR);
+	  this->argInterceptor.insert(IPOINT_BEFORE, rtn, REG_STACK_PTR);
 	}
       }
   }
